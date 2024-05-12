@@ -8,8 +8,8 @@ import {
   SuccessResponse,
   Response
 } from 'tsoa';
-import { User } from './user';
-import { UsersService, UserCreationParams } from './usersService';
+import { User } from './interfaces/user';
+import { UsersService } from './usersService';
 import { NotFoundError } from '../errors/NotFoundError';
 import {
   InternalServerError,
@@ -18,6 +18,7 @@ import {
 } from '../middlewares/errorHandler';
 import { provideSingleton } from '../utils/provideSingleton';
 import { inject } from 'inversify';
+import { UserCreationParams } from './interfaces/userCreationParams';
 
 @Route('v1/users')
 @provideSingleton(UsersController)
@@ -29,7 +30,6 @@ export class UsersController extends Controller {
   /**
    * Retrieves the details of an existing user.
    * Supply the unique user ID from either and receive corresponding user details.
-   * @example userId 1
    */
   @SuccessResponse('200', 'Ok')
   @Response<NotFoundApiError>(404, 'User not found')
@@ -52,9 +52,8 @@ export class UsersController extends Controller {
   @Post()
   public async createUser(
     @Body() requestBody: UserCreationParams
-  ): Promise<number> {
+  ): Promise<User> {
     this.setStatus(201);
-    const user = this.usersService.create(requestBody);
-    return user.id;
+    return this.usersService.create(requestBody);
   }
 }

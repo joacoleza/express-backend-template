@@ -42,14 +42,6 @@ export const errorHandler = (
     };
     return res.status(404).json(notFoundApiError);
   }
-  if (err instanceof NotFoundError) {
-    console.info(`Caught NotFound Error for ${req.path}.`);
-    const notFoundApiError: NotFoundApiError = {
-      message: 'Not found',
-      details: err?.message
-    };
-    return res.status(404).json(notFoundApiError);
-  }
   if (err instanceof Error) {
     console.error(`Unhandled error for ${req.path}.`, err);
     const internalServerError: InternalServerError = {
