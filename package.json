@@ -13,6 +13,7 @@
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --config .prettierrc ./src/**/*.ts --check",
     "prettier:fix": "prettier --config .prettierrc ./src/**/*.ts --write",
+    "pretest": "npm run build",
     "test": "jest",
     "prepare": "husky"
   },

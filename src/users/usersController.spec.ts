@@ -34,7 +34,6 @@ describe('v1/users', () => {
             email: 'john.doe@mail.com'
           });
         expect(response.status).toEqual(422);
-        console.log('!!!!', response.body);
         expect(response.body.details['requestBody.id'].message).toEqual(
           '"id" is an excess property and therefore is not allowed'
         );

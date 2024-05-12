@@ -16,7 +16,6 @@ describe('isNumber', () => {
     [false, []],
     [false, 'string']
   ])('should return %s when parameter is %s', (expectedResult, parameter) => {
-    console.log();
     expect(isNumber(parameter)).toEqual(expectedResult);
   });
 });
