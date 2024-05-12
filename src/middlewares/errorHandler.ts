@@ -1,7 +1,7 @@
 import {
   Response as ExResponse,
   Request as ExRequest,
-  NextFunction,
+  NextFunction
 } from 'express';
 import { FieldErrors, ValidateError } from 'tsoa';
 import { NotFoundError } from '../errors/NotFoundError';

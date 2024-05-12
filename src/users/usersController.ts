@@ -11,10 +11,21 @@ import {
 import { User } from './user';
 import { UsersService, UserCreationParams } from './usersService';
 import { NotFoundError } from '../errors/NotFoundError';
-import { InternalServerError, NotFoundApiError, ValidationApiError } from '../middlewares/errorHandler';
+import {
+  InternalServerError,
+  NotFoundApiError,
+  ValidationApiError
+} from '../middlewares/errorHandler';
+import { provideSingleton } from '../utils/provideSingleton';
+import { inject } from 'inversify';
 
 @Route('v1/users')
+@provideSingleton(UsersController)
 export class UsersController extends Controller {
+  constructor(@inject(UsersService) private usersService: UsersService) {
+    super();
+  }
+
   /**
    * Retrieves the details of an existing user.
    * Supply the unique user ID from either and receive corresponding user details.
@@ -25,7 +36,7 @@ export class UsersController extends Controller {
   @Response<InternalServerError>(500, 'Internal Server Error')
   @Get('{userId}')
   public async getUser(@Path() userId: number): Promise<User> {
-    const user = new UsersService().get(userId);
+    const user = this.usersService.get(userId);
     if (!user) {
       throw new NotFoundError(`User ${userId} not found.`);
     }
@@ -41,9 +52,9 @@ export class UsersController extends Controller {
   @Post()
   public async createUser(
     @Body() requestBody: UserCreationParams
-  ): Promise<void> {
+  ): Promise<number> {
     this.setStatus(201);
-    new UsersService().create(requestBody);
-    return;
+    const user = this.usersService.create(requestBody);
+    return user.id;
   }
 }

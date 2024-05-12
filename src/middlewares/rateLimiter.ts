@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { rateLimit } from 'express-rate-limit';
 
-import { isNumber } from '../common/isNumber';
+import { isNumber } from '../utils/isNumber';
 
 const getLimit = (): number =>
   isNumber(process.env.RATE_LIMIT_WINDOW_MINUTES)

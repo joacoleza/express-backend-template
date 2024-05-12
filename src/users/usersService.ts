@@ -1,3 +1,4 @@
+import { provideSingleton } from '../utils/provideSingleton';
 import { User } from './user';
 
 export type UserCreationParams = {
@@ -6,6 +7,7 @@ export type UserCreationParams = {
   phoneNumbers: string[];
 };
 
+@provideSingleton(UsersService)
 export class UsersService {
   private users: User[] = [
     {
@@ -29,10 +31,12 @@ export class UsersService {
   }
 
   public create(userCreationParams: UserCreationParams): User {
-    return {
-      id: this.users[this.users.length - 1].id + 1,
+    const user: User = {
+      id: this.users[this.users.length - 1].id + 1, // Attention! If 2 requests are processed concurrently this could add 2 users with the same id. Id generation should be handled by the DB in a real app.
       status: 'Happy',
       ...userCreationParams
     };
+    this.users.push(user);
+    return user
   }
 }
