@@ -37,6 +37,6 @@ export class UsersService {
       ...userCreationParams
     };
     this.users.push(user);
-    return user
+    return user;
   }
 }

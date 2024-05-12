@@ -11,7 +11,8 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x npm run swagger \"",
     "swagger": "tsoa routes && tsoa spec",
     "lint": "eslint . --ext .ts",
-    "prettier": "prettier --config .prettierrc ./src/**/*.ts --write",
+    "prettier": "prettier --config .prettierrc ./src/**/*.ts --check",
+    "prettier:fix": "prettier --config .prettierrc ./src/**/*.ts --write",
     "test": "echo \"Error: no test specified\" && exit 0",
     "prepare": "husky"
   },
